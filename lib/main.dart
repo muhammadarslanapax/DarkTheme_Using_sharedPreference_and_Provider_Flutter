@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled7/themeprovider.dart';
+import 'package:untitled7/utils/routes_name.dart';
 import 'package:untitled7/views/botom_nav/bottom_nav.dart';
 
 void main() {
@@ -29,9 +30,13 @@ class MyApp extends StatelessWidget {
 
              primarySwatch: Colors.red
            ),
+           // onGenerateInitialRoutes: ,
+           // initialRoute: ,
           );
         },)
+
     );
+
   }
 }
 
