@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
            ),
            theme: ThemeData(
 
-             primarySwatch: Colors.red
+             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green).copyWith(secondary: Colors.red)
            ),
            // onGenerateInitialRoutes: ,
            // initialRoute: ,
