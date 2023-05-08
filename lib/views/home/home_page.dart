@@ -32,126 +32,129 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(title: Text("Home page"),),
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
 
-        children: [
-          TextFormField(
-            controller: controllername,
-            decoration: InputDecoration(
-            hintText: "Name"
-          ),),
-          SizedBox(height: 20,),
-
-          TextFormField(
-            controller: controllerid,
-            decoration: const InputDecoration(
-                hintText: "Amount"
+          children: [
+            TextFormField(
+              controller: controllername,
+              decoration: InputDecoration(
+              hintText: "Name"
             ),),
+            SizedBox(height: 20,),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(onPressed: (){
-                if(controllerid.text.isEmpty || controllername.text.isEmpty){
-                  print("Please fill all fields");
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Please fill all Fields'),
-                      duration: Duration(milliseconds: 400),
-                    ),
-                  );
+            TextFormField(
+              controller: controllerid,
+              decoration: const InputDecoration(
+                  hintText: "Amount"
+              ),),
 
-                }else{
-                  db_handler?.insert(NotesModal(
-
-                      title: controllername.text.toString(),
-
-                      email: controllerid.text.toString()
-                  )
-
-
-                  ).then((value){
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(onPressed: (){
+                  if(controllerid.text.isEmpty || controllername.text.isEmpty){
+                    print("Please fill all fields");
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Add Successfully'),
-                          duration: Duration(milliseconds: 400),
-                        ));
+                      SnackBar(
+                        content: Text('Please fill all Fields'),
+                        duration: Duration(milliseconds: 400),
+                      ),
+                    );
+
+                  }else{
+                    db_handler?.insert(NotesModal(
+
+                        title: controllername.text.toString(),
+
+                        email: controllerid.text.toString()
+                    )
+
+
+                    ).then((value){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Add Successfully'),
+                            duration: Duration(milliseconds: 400),
+                          ));
+                      setState(() {
+                        controllerid.text = "";
+                        controllername.text = "";
+
+                        noteslist = db_handler!.getNotesList();
+                      });
+                      print(value.toString());
+                      print("Add");
+
+
+                    }).onError((error, stackTrace){
+                      print(error.toString());
+                    });
+
+                  }
+
+
+
+
+                }, child: Text("Add")),
+
+                ElevatedButton(onPressed: (){
+
+                  if(a!=null){
+                    db_handler!.update(
+                        NotesModal(
+                          id: a,
+                          title: controllername.text,
+                          email:controllerid.text ,
+
+                        )
+                    )..then((value){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Update Successfully'),
+                            duration: Duration(milliseconds: 400),
+                          ));
+
+                    });
                     setState(() {
                       controllerid.text = "";
                       controllername.text = "";
 
                       noteslist = db_handler!.getNotesList();
                     });
-                    print(value.toString());
-                    print("Add");
-
-
-                  }).onError((error, stackTrace){
-                    print(error.toString());
-                  });
-
-                }
 
 
 
 
-              }, child: Text("Add")),
-
-              ElevatedButton(onPressed: (){
-
-                if(a!=null){
-                  db_handler!.update(
-                      NotesModal(
-                        id: a,
-                        title: controllername.text,
-                        email:controllerid.text ,
-
-                      )
-                  )..then((value){
+                  }else{
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Update Successfully'),
+                          content: Text('Update Not Possible'),
                           duration: Duration(milliseconds: 400),
                         ));
 
-                  });
-                  setState(() {
-                    controllerid.text = "";
-                    controllername.text = "";
 
-                    noteslist = db_handler!.getNotesList();
-                  });
+                  }
 
 
 
+                }, child: Text("Udate")),
 
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Update Not Possible'),
-                        duration: Duration(milliseconds: 400),
-                      ));
-
-
-                }
-
-
-
-              }, child: Text("Udate")),
-
-            ],
-          ),
+              ],
+            ),
 
 
 
 
 
-          Expanded(
-            child: FutureBuilder(
+            FutureBuilder(
+
               future:  noteslist,
                 builder: (context, AsyncSnapshot<List<NotesModal>> snapshot){
                 if(snapshot.hasData){
                   return ListView.builder(itemCount: snapshot.data!.length,
+                      shrinkWrap: true,
+                      primary: false,
                       itemBuilder: (context,index){
                         return InkWell(
                           onLongPress: (){
@@ -219,11 +222,11 @@ class _HomeState extends State<Home> {
                 }
 
 
-            }),
-          )
+            })
 
-        ],
+          ],
 
+        ),
       ),
     );
   }
