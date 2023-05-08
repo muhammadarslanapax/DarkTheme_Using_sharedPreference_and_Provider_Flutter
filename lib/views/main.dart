@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled7/themeprovider.dart';
+import 'package:untitled7/provider/themeprovider.dart';
 import 'package:untitled7/utils/routes_name.dart';
 import 'package:untitled7/views/botom_nav/bottom_nav.dart';
 

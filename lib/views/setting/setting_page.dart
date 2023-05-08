@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../themeprovider.dart';
+import '../../provider/themeprovider.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
